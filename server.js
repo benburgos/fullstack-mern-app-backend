@@ -3,6 +3,8 @@ require('dotenv').config();
 const { PORT = 3001, DATABASE_URL } = process.env;
 const express = require('express');
 const mongoose = require('mongoose');
+const cors = require('cors');
+const logger = require('morgan');
 
 // App Object ////////////////////////////////////////////////////////////
 const app = express();
@@ -16,10 +18,26 @@ mongoose.connection
   .on('close', () => console.log(`You are disconnected from MongoDB!`))
   .on('error', (error) => console.log(error));
 
+// Models ////////////////////////////////////////////////////////////////
+const PeopleSchema = new mongoose.Schema({
+  name: String,
+  image: String,
+  title: String,
+});
+
+const People = mongoose.model('People', PeopleSchema)
+
+// Middleware ////////////////////////////////////////////////////////////
+app.use(cors());
+app.use(logger('dev'));
+app.use(express.json());
+
 // Routes ////////////////////////////////////////////////////////////////
 app.get('/', (req, res) => {
   res.send(`You're at the index!`);
 });
+
+// IDUCS - INDUCES without new and edit routes
 
 // Listener //////////////////////////////////////////////////////////////
 app.listen(PORT, () => console.log(`You're listening on port ${PORT}!`));
