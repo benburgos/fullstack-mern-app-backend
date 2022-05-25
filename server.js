@@ -46,10 +46,39 @@ app.get('/people', async (req, res) => {
   }
 });
 
+// Delete Route
+app.delete('/people/:id', async (req, res) => {
+  try {
+    res.json(await People.findByIdAndDelete(req.params.id));
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
+
+// Update Route
+app.put('/people/:id', async (req, res) => {
+  try {
+    res.json(
+      await People.findByIdAndUpdate(req.params.id, req.body, { new: true })
+    );
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
+
 // Create Route
 app.post('/people', async (req, res) => {
   try {
     res.json(await People.create(req.body));
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
+
+// Show Route
+app.get('/people/:id', async (req, res) => {
+  try {
+    res.json(await People.findById(req.params.id));
   } catch (error) {
     res.status(400).json(error);
   }
