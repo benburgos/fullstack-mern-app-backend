@@ -34,7 +34,7 @@ app.use(express.json());
 
 // Routes ////////////////////////////////////////////////////////////////
 app.get('/', (req, res) => {
-  res.send(`You're at the index!`);
+  res.redirect(`/people`);
 });
 
 // Index Route
