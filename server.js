@@ -25,7 +25,7 @@ const PeopleSchema = new mongoose.Schema({
   title: String,
 });
 
-const People = mongoose.model('People', PeopleSchema)
+const People = mongoose.model('People', PeopleSchema);
 
 // Middleware ////////////////////////////////////////////////////////////
 app.use(cors());
@@ -37,7 +37,23 @@ app.get('/', (req, res) => {
   res.send(`You're at the index!`);
 });
 
-// IDUCS - INDUCES without new and edit routes
+// Index Route
+app.get('/people', async (req, res) => {
+  try {
+    res.json(await People.find({}));
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
+
+// Create Route
+app.post('/people', async (req, res) => {
+  try {
+    res.json(await People.create(req.body));
+  } catch (error) {
+    res.status(400).json(error);
+  }
+});
 
 // Listener //////////////////////////////////////////////////////////////
 app.listen(PORT, () => console.log(`You're listening on port ${PORT}!`));
